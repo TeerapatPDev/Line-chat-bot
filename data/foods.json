@@ -1,0 +1,26 @@
+{
+    "ข้าวผัด": {
+        "name": "ข้าวผัด",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4fFZ_vPw78LgpzZRFhBH1t1ZoSESHvqiDKg&s",
+        "nutrition": "350 kcal",
+        "protein": "10 g"
+    },
+    "ส้มตำ": {
+        "name": "ส้มตำ",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhyKO0zPRsVyrUtoQczThJRI7LsSZuPRQLAQ&s",
+        "nutrition": "120 kcal",
+        "protein": "20 g"
+    },
+    "ผัดไทย": {
+        "name": "ผัดไทย",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFPPHTiVsSBK5Bp3ABHDWEMqTxkJlxb6Jwhw&s",
+        "nutrition": "400 kcal",
+        "protein": "30 g"
+    },
+    "ก๋วยเตี๋ยว": {
+        "name": "ก๋วยเตี๋ยว",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcwaxuXmI8M0avMgvvNzLFjWtJ_HQ625xQSQ&s",
+        "nutrition": "300 kcal",
+        "protein": "20 g"
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "ร้านป้าไก่": {
+        "name": "ร้านข้าวฟางคาเฟ่",
+        "image": "https://lh3.googleusercontent.com/gps-cs-s/AHVAweoq5a9iTkwmHhhig-2ZLenFkjezPiNibxcurIzddT3LmaEdHn0uxsbUF6yW3rwTHMTONk2CtpthofyPrxVwjAgWxut19vyjBaXXrr4Y0cPZRuq7qjmHFNF5MTd_dBHc4-djDvHr=w408-h280-k-no",
+        "location": "https://maps.app.goo.gl/YhdPqUhr2haR2zt16"
+    },
+    "ร้านป้าอาร์ต": {
+        "name": "กิ๋นนี่เน้อ",
+        "image": "https://lh3.googleusercontent.com/gps-cs-s/AHVAweq-e2B7HaRAo7hBxQlgxC4w-iwvwVkHAnxJuFE-fUIVdqRCBDICp5Nb8RbMCda6IamtGkOW2djU7ypsDv6e_fP6S431TvTAxmoIiNge4MhE3Xs6E9Nnx1IfcV0GuwFNGkKtRTZOCQ=w408-h725-k-no",
+        "location": "https://maps.app.goo.gl/GmjiYYT6UPwFtpjS9"
+    },
+    "ร้านป้าเจ": {
+        "name": "Term Waan cafe",
+        "image": "https://lh3.googleusercontent.com/gps-cs-s/AHVAwer4jPAnZevWY8FeeICd50pduQpynaiad_sCa4RuPp7CMYQLGE1OOwoiXYmAOSpLWOg11IEqOpylCPWFJYtHyHhAUKmcG5RWBKxfX-UJSjPA_iVO7f01UDVoFYEAAuqIS6n18Yjf=w408-h408-k-no",
+        "location": "https://maps.app.goo.gl/YZ5xKdpWobGBmBpa6"
+    }
+}
