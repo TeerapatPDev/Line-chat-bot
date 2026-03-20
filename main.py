@@ -291,44 +291,65 @@ def reply(reply_token, message):
     )
 
 # ================== WEBHOOK ==================
-# ================== WEBHOOK ==================
 @app.post("/webhook")
 async def webhook(req: Request):
     body = await req.json()
-    event = body["events"][0]
-    reply_token = event["replyToken"]
 
-    if event["type"] == "follow":
+    # ตรวจสอบ event มีไหม
+    if "events" not in body or len(body["events"]) == 0:
+        return {"status": "ok"}
+
+    event = body["events"][0]
+    reply_token = event.get("replyToken")
+    if not reply_token:
+        return {"status": "ok"}
+
+    # ตอบกลับ follow event
+    if event.get("type") == "follow":
         reply(reply_token, add_quick_reply({"type": "text", "text": "ยินดีต้อนรับ 😄"}))
         return {"status": "ok"}
 
-    if event["type"] != "message":
+    # ถ้าไม่ใช่ message event
+    if event.get("type") != "message":
         return {"status": "ok"}
 
-    text = event["message"]["text"].strip()
+    # ตรวจสอบว่าเป็นข้อความจริง ๆ
+    message_type = event["message"].get("type")
+    if message_type != "text":
+        # กรณีเป็น sticker, image, video, audio, location ฯลฯ
+        reply(reply_token, add_quick_reply({
+            "type": "text",
+            "text": "ผมอ่านสิ่งนี้ไม่ได้นะ 😅 ลองพิมพ์ข้อความแทนได้ไหม?"
+        }))
+        return {"status": "ok"}
+
+    # ได้ข้อความจริง ๆ
+    text = event["message"].get("text", "").strip()
+    if not text:
+        reply(reply_token, add_quick_reply({
+            "type": "text",
+            "text": "ข้อความว่าง ๆ ลองพิมพ์ใหม่ได้ไหม "
+        }))
+        return {"status": "ok"}
+
+    # ตรวจสอบ intent ตามปกติ
     intent = detect_intent(text)
 
     if intent == "hungry":  # 🔥 หิว → สุ่มอาหาร 3 เมนู
-        t = random.choice(list(foods.keys()))
         message = build_random_3_foods()
-
     elif intent == "recommend_food":  # กินอะไรดี → เลือกประเภทอาหาร
         message = build_type_flex()
-
     elif intent == "choose_type":  # เลือกประเภท → สุ่ม 4 เมนู
         message = build_food_list(text)
-
     elif text == "สุ่มอาหาร":  # สุ่มอาหารเอง
         message = build_random_3_foods()
-
     elif intent == "recommend_restaurant":
         message = build_shop_flex()
-
     elif intent == "not_hungry":
         message = {"type": "text", "text": "อ้าว ไม่หิวแล้วหรอ 😅"}
-
     else:
-        message = {"type": "text", "text": "ลองพิมพ์ใหม่ดูนะ 😄"}
+        message = {"type": "text", "text": "ลองพิมพ์ใหม่ดูนะ ไม่เข้าใจคำถาม "}
 
+    # reply พร้อม quick reply
     reply(reply_token, add_quick_reply(message))
     return {"status": "ok"}
