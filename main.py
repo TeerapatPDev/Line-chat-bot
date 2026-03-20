@@ -46,8 +46,8 @@ def detect_intent(text):
     # =========================
     # 1️⃣ RANDOM FOOD (สุ่มอาหาร)
     # =========================
-    # เช็คคำ "สุ่ม" ก่อนคำอื่น ๆ
-    if "สุ่ม" in text_clean:
+    # เช็คคำ "สุ่ม" หรือ "สุ่มอาหาร" ครอบคลุมทุกกรณี
+    if re.search(r"(สุ่ม)", text_clean):
         return "random_food"
 
     # =========================
@@ -343,9 +343,10 @@ async def webhook(req: Request):
     # ตรวจสอบ intent ตามปกติ
     intent = detect_intent(text)
 
-    if intent == "hungry":  # 🔥 หิว → สุ่มอาหาร 3 เมนู
+    # 🔥 ตอบกลับตาม intent
+    if intent == "random_food" or intent == "hungry":
         message = build_random_3_foods()
-    elif intent == "recommend_food":  # กินอะไรดี → เลือกประเภทอาหาร
+    elif intent == "recommend_food":
         message = build_type_flex()
     elif intent == "choose_type":  # เลือกประเภท → สุ่ม 4 เมนู
         message = build_food_list(text)
