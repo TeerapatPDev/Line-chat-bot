@@ -27,75 +27,83 @@ def simple_tokenize(text):
 def is_similar(word, keywords, cutoff=0.6):
     return len(get_close_matches(word, keywords, n=1, cutoff=cutoff)) > 0
 
-# ================== INTENT ==================
+
+# ================== DETECT INTENT ==================
 def detect_intent(text):
+    if not text:
+        return "unknown"
+
+    # lowercase + strip space
     text = text.lower().strip()
 
-    # normalize
+    # normalize slang
     text = text.replace("แดก", "กิน")
     text = text.replace("ไร", "อะไร")
 
-    # =====================================
-    # 🔥 1. REGEX (แม่นก่อน)
-    # =====================================
+    # ลบ emoji / symbol ยกเว้นตัวอักษรไทย-อังกฤษ-ตัวเลข
+    text_clean = re.sub(r'[^\w\sก-๙]', '', text)
 
-    # เลือกประเภท (exact)
-    if text in foods.keys():
+    # =========================
+    # 1️⃣ RANDOM FOOD (สุ่มอาหาร)
+    # =========================
+    # เช็คคำ "สุ่ม" ก่อนคำอื่น ๆ
+    if "สุ่ม" in text_clean:
+        return "random_food"
+
+    # =========================
+    # 2️⃣ เลือกประเภท exact
+    # =========================
+    if text_clean in foods.keys():
         return "choose_type"
 
-    # ร้านอาหาร
-    if re.search(r"(ร้าน|ของกิน|อาหาร).*(ไหนดี|แนะนำ|อร่อย|เด็ด|บ้าง)", text) \
-       or re.search(r"(แนะนำ|มี).*(ร้าน|ของกิน|อาหาร)", text):
+    # =========================
+    # 3️⃣ ร้านอาหาร
+    # =========================
+    if re.search(r"(ร้าน|ของกิน|อาหาร).*(แนะนำ|อร่อย|เด็ด|ไหนดี|บ้าง|หน่อย)?", text_clean) \
+       or re.search(r"(แนะนำ|มี|มีร้าน).*?(ร้าน|อาหาร|ของกิน)", text_clean):
         return "recommend_restaurant"
 
-    # กินอะไรดี
-    if re.search(r"(กิน|ทาน|แดก).*(อะไร|ไร).*ดี|มีอะไรน่ากิน", text):
+    # =========================
+    # 4️⃣ กินอะไรดี / แนะนำเมนู
+    # =========================
+    if re.search(r"(กิน|ทาน).*(อะไร|เมนู|อะไรดี|มีอะไรน่ากิน|จะกินอะไร).*", text_clean):
         return "recommend_food"
 
-    # 🔥 หิว → สุ่มอาหารเลย
-    if re.search(r"(หิว|อยากกิน|โคตรหิว)", text):
-        if re.search(r"ไม่หิว", text):
+    # =========================
+    # 5️⃣ หิว / อยากกิน
+    # =========================
+    if re.search(r"(หิว|อยากกิน|โคตรหิว|หิวมาก|หิววว)+", text_clean):
+        if re.search(r"(ไม่หิว|อิ่มแล้ว|อิ่ม)", text_clean):
             return "not_hungry"
         return "hungry"
-
-    # =====================================
-    # 🔥 2. FUZZY TYPE MATCH
-    # =====================================
-    for key in foods.keys():
-        if is_similar(text, [key]):
-            return "choose_type"
-
-    # =====================================
-    # 🔥 3. NLP FALLBACK
-    # =====================================
-    tokens = simple_tokenize(text)
-
-    food_words = ["กิน", "อาหาร", "ของกิน", "เมนู"]
-    recommend_words = ["แนะนำ", "อะไร", "ไหนดี", "บ้าง"]
-    restaurant_words = ["ร้าน", "ร้านอาหาร"]
-    hungry_words = ["หิว", "อยากกิน"]
-
-    score = {
-        "recommend_food": 0,
-        "recommend_restaurant": 0,
-        "hungry": 0,
-    }
-
-    for token in tokens:
-        if is_similar(token, food_words):
-            score["recommend_food"] += 1
-        if is_similar(token, recommend_words):
-            score["recommend_food"] += 1
-        if is_similar(token, restaurant_words):
-            score["recommend_restaurant"] += 2
-        if is_similar(token, hungry_words):
-            score["hungry"] += 2
-
-    if "ไม่หิว" in text:
+    if re.search(r"(ไม่หิว|อิ่มแล้ว|อิ่ม)", text_clean):
         return "not_hungry"
 
+    # =========================
+    # 6️⃣ Fuzzy match type
+    # =========================
+    for key in foods.keys():
+        if is_similar(text_clean, [key]):
+            return "choose_type"
+
+    # =========================
+    # 7️⃣ NLP fallback
+    # =========================
+    tokens = simple_tokenize(text_clean)
+    score = {"recommend_food":0, "recommend_restaurant":0, "hungry":0}
+    food_words = ["กิน","อาหาร","ของกิน","เมนู"]
+    recommend_words = ["แนะนำ","อะไร","ไหนดี","บ้าง","หน่อย"]
+    restaurant_words = ["ร้าน","ร้านอาหาร"]
+    hungry_words = ["หิว","อยากกิน"]
+
+    for token in tokens:
+        if is_similar(token, food_words): score["recommend_food"]+=1
+        if is_similar(token, recommend_words): score["recommend_food"]+=1
+        if is_similar(token, restaurant_words): score["recommend_restaurant"]+=2
+        if is_similar(token, hungry_words): score["hungry"]+=2
+
     best = max(score, key=score.get)
-    return best if score[best] > 0 else "unknown"
+    return best if score[best]>0 else "unknown"
 
 # ================== FLEX ==================
 def build_food_flex(food):
@@ -319,7 +327,7 @@ async def webhook(req: Request):
         # กรณีเป็น sticker, image, video, audio, location ฯลฯ
         reply(reply_token, add_quick_reply({
             "type": "text",
-            "text": "ผมอ่านสิ่งนี้ไม่ได้นะ 😅 ลองพิมพ์ข้อความแทนได้ไหม?"
+            "text": "ฉันไม่เข้าใจ"
         }))
         return {"status": "ok"}
 
@@ -328,7 +336,7 @@ async def webhook(req: Request):
     if not text:
         reply(reply_token, add_quick_reply({
             "type": "text",
-            "text": "ข้อความว่าง ๆ ลองพิมพ์ใหม่ได้ไหม "
+            "text": "ฉันไม่เข้าใจ"
         }))
         return {"status": "ok"}
 
@@ -346,9 +354,9 @@ async def webhook(req: Request):
     elif intent == "recommend_restaurant":
         message = build_shop_flex()
     elif intent == "not_hungry":
-        message = {"type": "text", "text": "อ้าว ไม่หิวแล้วหรอ 😅"}
+        message = {"type": "text", "text": "ฉันไม่เข้าใจ"}
     else:
-        message = {"type": "text", "text": "ลองพิมพ์ใหม่ดูนะ ไม่เข้าใจคำถาม "}
+        message = {"type": "text", "text": "ฉันไม่เข้าใจ"}
 
     # reply พร้อม quick reply
     reply(reply_token, add_quick_reply(message))
