@@ -15,17 +15,6 @@ with open("data/foods.json", "r", encoding="utf-8") as f:
 with open("data/shops.json", "r", encoding="utf-8") as f:
     shop = json.load(f)
 
-# `foods.json` รองรับได้ทั้งแบบเดิม (object ที่คีย์เป็นชื่อเมนู) และแบบใหม่ (หมวด -> array ของเมนู)
-all_foods = []
-if isinstance(foods, dict):
-    for v in foods.values():
-        if isinstance(v, list):
-            all_foods.extend(v)
-        elif isinstance(v, dict):
-            all_foods.append(v)
-elif isinstance(foods, list):
-    all_foods = foods
-
 # ================== INTENT ==================
 def detect_intent(text):
     # 🟢 ร้านอาหาร (ครอบคลุมคำใกล้เคียง)
@@ -130,8 +119,19 @@ async def webhook(req: Request):
             print(f"text: {text} → intent: {intent}")  # debug
 
             if intent in ["hungry", "recommend_food"]:
-                food = random.choice(all_foods)
-                message = build_food_flex(food)
+                # รองรับโครงสร้าง foods.json แบบเดิม(dict) และแบบใหม่(มีแต่ละหมวดเป็น list)
+                all_foods = []
+                for v in foods.values():
+                    if isinstance(v, list):
+                        all_foods.extend(v)
+                    elif isinstance(v, dict):
+                        all_foods.append(v)
+
+                if all_foods:
+                    food = random.choice(all_foods)
+                    message = build_food_flex(food)
+                else:
+                    message = {"type": "text", "text": "ยังไม่มีเมนูอาหารตอนนี้"}
 
             elif intent == "recommend_restaurant":
                 message = build_shop_flex()
