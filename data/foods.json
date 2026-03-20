@@ -97,9 +97,130 @@
             "image": "https://img.wongnai.com/p/1920x0/2022/04/28/2b1d293c616b4038a1ca98acc5e04392.jpg",
             "nutrition": "400 kcal",
             "protein": "16 g"
+        },
+        {
+            "name": "ผัดไทย",
+            "image": "https://img.wongnai.com/p/400x0/2021/08/09/f5ff71c37a2c4101b895432aae1ac01a.jpg",
+            "nutrition": "400 kcal",
+            "protein": "20 g"
+          },
+          {
+            "name": "ก๋วยเตี๋ยวเรือ",
+            "image": "https://i.ytimg.com/vi/bYJRFdLUhWM/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDdWRn0zMZ_UJPP5L-HmbL7urGd3A",
+            "nutrition": "300 kcal",
+            "protein": "18 g"
+          },
+          {
+            "name": "ก๋วยเตี๋ยวต้มยำ",
+            "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZxXS9uHZh5_pDE19lL5jrWkSTKlyqrcPcBg&s",
+            "nutrition": "350 kcal",
+            "protein": "22 g"
+          },
+          {
+            "name": "ราดหน้า",
+            "image": "https://img.wongnai.com/p/1920x0/2022/04/28/2b1d293c616b4038a1ca98acc5e04392.jpg",
+            "nutrition": "420 kcal",
+            "protein": "25 g"
+          },
+          {
+            "name": "ผัดซีอิ๊ว",
+            "image": "https://img.wongnai.com/p/1968x0/2019/04/17/998894b9210947dfaafb59c21cad48dc.jpg",
+            "nutrition": "450 kcal",
+            "protein": "23 g"
+          },
+          {
+            "name": "บะหมี่หมูแดง",
+            "image": "https://img.wongnai.com/p/1920x0/2025/01/28/2bb552bfcd744954a1ff223fe68a5102.jpg",
+            "nutrition": "380 kcal",
+            "protein": "20 g"
+          },
+          {
+            "name": "สปาเกตตี้ผัดขี้เมา",
+            "image": "https://img.wongnai.com/p/1920x0/2017/09/21/565031e5e5e34e07a9daf9947b0b3cf1.jpg",
+            "nutrition": "500 kcal",
+            "protein": "18 g"
+          },
+          {
+            "name": "มาม่าผัด",
+            "image": "https://img.wongnai.com/p/1968x0/2023/12/27/70a2dfb872d943c4958729a3c6563f19.jpg",
+            "nutrition": "480 kcal",
+            "protein": "12 g"
+          },
+          {
+            "name": "ก๋วยจั๊บ",
+            "image": "https://www.maggi.co.th/sites/default/files/srh_recipes/20443911aaa52ca3f0d7f077d195444c.jpg",
+            "nutrition": "320 kcal",
+            "protein": "17 g"
+          },
+          {
+            "name": "เย็นตาโฟ",
+            "image": "https://img.kapook.com/u/2016/surauch/cook1/h1_2.jpg",
+            "nutrition": "330 kcal",
+            "protein": "19 g"
+          }
+    ],
+    "เมนูแกง": [
+        {
+            "name": "ต้มยำกุ้ง",
+            "image": "https://d3h1lg3ksw6i6b.cloudfront.net/media/image/2023/04/24/5608757681874e1ea5df1aa41d5b2e3d_How_To_Make_Tom_Yam_Kung_The_Epitome_Of_Delicious_And_Nutritious_Thai_Cuisine3.jpg",
+            "nutrition": "150 kcal",
+            "protein": "15 g"
+        },
+        {
+            "name": "แกงเขียวหวานไก่",
+            "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxSySeFySgy2w3zN2jEgjeM-48pAi3ctoEYA&s",
+            "nutrition": "350 kcal",
+            "protein": "18 g"
+        },
+        {
+            "name": "แกงมัสมั่นเนื้อ",
+            "image": "https://i.ytimg.com/vi/bQpFbDS_ZQc/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCGiHkqiw4XmT6Kn0gvKVy3BjNNyw",
+            "nutrition": "450 kcal",
+            "protein": "25 g"
+        },
+        {
+            "name": "ต้มข่าไก่",
+            "image": "https://www.tecnoplusthai.com/wp-content/uploads/2025/08/3.2-2-1024x640.webp",
+            "nutrition": "250 kcal",
+            "protein": "14 g"
+        },
+        {
+            "name": "แกงส้มชะอมกุ้ง",
+            "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyyf2fsVDxGCZYhfbSd9hqYdY6spkwUixW-w&s",
+            "nutrition": "120 kcal",
+            "protein": "12 g"
+        },
+        {
+            "name": "แกงพะแนงหมู",
+            "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCeuqTJxH83mf6Z39DjavS64xxB8fqenCIoQ&s",
+            "nutrition": "380 kcal",
+            "protein": "20 g"
+        },
+        {
+            "name": "แกงเผ็ดเป็ดย่าง",
+            "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzIYjXkTeB3gZjidGu39-yHubyfVMHMTiPiw&s",
+            "nutrition": "400 kcal",
+            "protein": "16 g"
+        },
+        {
+            "name": "แกงจืดเต้าหู้หมูสับ",
+            "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBnU318neCLEYGI7oB2Y71KGrbKVEXeUqFbQ&s",
+            "nutrition": "110 kcal",
+            "protein": "10 g"
+        },
+        {
+            "name": "แกงไตปลา",
+            "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDsg7xV5mM0Hv8KTqa9LGmYSR5Ji_SuQNqyQ&s",
+            "nutrition": "90 kcal",
+            "protein": "12 g"
+        },
+        {
+            "name": "แกงเลียงกุ้งสด",
+            "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTv-jdRhU6ksSfmlH6jKf5P0quW1v3uuRU9Kw&s",
+            "nutrition": "100 kcal",
+            "protein": "10 g"
         }
     ],
-    "เมนูแกง": [],
     "ของแซบ": [
         {
             "name": "ส้มตำ",
@@ -124,8 +245,172 @@
             "image": "https://d3h1lg3ksw6i6b.cloudfront.net/media/image/2023/04/24/5608757681874e1ea5df1aa41d5b2e3d_How_To_Make_Tom_Yam_Kung_The_Epitome_Of_Delicious_And_Nutritious_Thai_Cuisine3.jpg",
             "nutrition": "150 kcal",
             "protein": "15 g"
+        },
+        {
+          "name": "ต้มแซ่บกระดูกอ่อน",
+          "image": "https://img.wongnai.com/p/1920x0/2020/05/26/51204c8ba3dd4f7096c69c46a246941b.jpg",
+          "nutrition": "180 kcal",
+          "protein": "18 g"
+        },
+        {
+          "name": "น้ำตกหมู",
+          "image": "https://www.unileverfoodsolutions.co.th/dam/global-ufs/mcos/SEA/calcmenu/recipes/TH-recipes/red-meats-&-red-meat-dishes/spicy-roast-pork-salad/main-header.jpg",
+          "nutrition": "260 kcal",
+          "protein": "22 g"
+        },
+        {
+          "name": "ยำปลาดุกฟู",
+          "image": "https://img.kapook.com/u/2017/surauch/cooking/e1_10.jpg",
+          "nutrition": "300 kcal",
+          "protein": "25 g"
+        },
+        {
+          "name": "ตำข้าวโพด",
+          "image": "https://ploytellsastory.home.blog/wp-content/uploads/2022/07/img20220727145606.jpg",
+          "nutrition": "150 kcal",
+          "protein": "6 g"
+        },
+        {
+          "name": "ยำมาม่า",
+          "image": "https://s359.kapook.com/pagebuilder/dd8fa42d-01a2-48c1-b146-a0770bf7d499.jpg",
+          "nutrition": "280 kcal",
+          "protein": "10 g"
+        },
+        {
+          "name": "ก้อยหมู",
+          "image": "https://img.wongnai.com/p/1920x0/2020/02/20/e159f76f098145ffa7016b1e9f3a3f61.jpg",
+          "nutrition": "270 kcal",
+          "protein": "23 g"
+        },
+        {
+          "name": "ซุปหน่อไม้",
+          "image": "https://img.wongnai.com/p/1968x0/2021/06/25/3015e88934f149e0afa288326a15d05e.jpg",
+          "nutrition": "140 kcal",
+          "protein": "4 g"
         }
     ],
-    "ของหวาน": [],
-    "เครื่องดื่ม": []
+    "ของหวาน": [
+        {
+            "name": "ข้าวเหนียวมะม่วง",
+            "image": "https://cms.dmpcdn.com/travel/2020/02/10/c7de9350-4be8-11ea-ae76-0ba0a3f6b49e_original.jpg",
+            "nutrition": "350 kcal",
+            "protein": "6 g"
+          },
+          {
+            "name": "บัวลอย",
+            "image": "https://img.kapook.com/u/2022/wanwanat/1079595941.jpg",
+            "nutrition": "300 kcal",
+            "protein": "4 g"
+          },
+          {
+            "name": "ลอดช่อง",
+            "image": "https://f.ptcdn.info/289/032/000/1433921938-IMG3046-o.jpg",
+            "nutrition": "280 kcal",
+            "protein": "3 g"
+          },
+          {
+            "name": "ทับทิมกรอบ",
+            "image": "https://lh3.googleusercontent.com/proxy/xF_i2GJ0y-r93yUElkaCr4RDqUxwaS42y54eG6Y1zqYhBqKhTi1DeFtQO3NTG0R9gXEdBzFgPRURYvLZUaw4UlAJHjZrOE8fuLh124V0FPWsas9goE2WvXcJgXOLLlR7EcqKhkK9UYv_NTjvSTq23w",
+            "nutrition": "250 kcal",
+            "protein": "2 g"
+          },
+          {
+            "name": "เฉาก๊วย",
+            "image": "https://s359.kapook.com/pagebuilder/99910e94-ffb6-4561-82b9-d3b5fbbd4fc1.jpg",
+            "nutrition": "180 kcal",
+            "protein": "1 g"
+          },
+          {
+            "name": "ไอศกรีมกะทิ",
+            "image": "https://img.wongnai.com/p/1920x0/2018/12/30/4e39426f8a2b4a99ab5cf6776681ceef.jpg",
+            "nutrition": "320 kcal",
+            "protein": "3 g"
+          },
+          {
+            "name": "ขนมถ้วย",
+            "image": "https://img.wongnai.com/p/1920x0/2020/03/03/c5ad6512376f41a394f23a4298f6c557.jpg",
+            "nutrition": "200 kcal",
+            "protein": "2 g"
+          },
+          {
+            "name": "กล้วยบวชชี",
+            "image": "https://s359.kapook.com/pagebuilder/8a3fba92-b3f6-4754-ac9b-18e02a923252.jpg",
+            "nutrition": "270 kcal",
+            "protein": "2 g"
+          },
+          {
+            "name": "สาคูเปียก",
+            "image": "https://s359.kapook.com/pagebuilder/cc2f8fd6-fd5e-42ae-9242-c61c84fd3c6c.jpg",
+            "nutrition": "260 kcal",
+            "protein": "2 g"
+          },
+          {
+            "name": "ขนมครก",
+            "image": "https://dessertsmate.com/wp-content/uploads/2023/09/75-%E0%B8%82%E0%B8%99%E0%B8%A1%E0%B8%84%E0%B8%A3%E0%B8%81.jpg",
+            "nutrition": "290 kcal",
+            "protein": "3 g"
+          }
+    ],
+    "เครื่องดื่ม": [
+        {
+            "name": "ชาไทย",
+            "image": "https://cms.dmpcdn.com/food/2021/05/05/00a9fe30-ad7d-11eb-a73b-c395e0dfc07b_original.jpg",
+            "nutrition": "200 kcal",
+            "protein": "4 g"
+          },
+          {
+            "name": "กาแฟเย็น",
+            "image": "https://www.nestleprofessional.co.th/sites/default/files/styles/np_recipe_detail/public/2022-04/nescafe-iced-signature-540x400.jpg?itok=5gl_au1G",
+            "nutrition": "150 kcal",
+            "protein": "3 g"
+          },
+          {
+            "name": "น้ำมะนาว",
+            "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQIozBk6FT1ISNb0P4UwXD0x3ne7ppUjn3ew&s",
+            "nutrition": "100 kcal",
+            "protein": "1 g"
+          },
+          {
+            "name": "น้ำส้มคั้น",
+            "image": "https://s359.kapook.com/pagebuilder/3c09c1ab-5e43-49db-99af-a985a2d8c61b.jpg",
+            "nutrition": "120 kcal",
+            "protein": "2 g"
+          },
+          {
+            "name": "โกโก้เย็น",
+            "image": "https://www.scn-screening.com/wp-content/uploads/2024/08/cold-cocoa.jpg",
+            "nutrition": "180 kcal",
+            "protein": "4 g"
+          },
+          {
+            "name": "นมชมพู",
+            "image": "https://pungsiam.com/upload-img/LINE_ALBUM_%E0%B9%83%E0%B8%AA%E0%B9%88%E0%B9%83%E0%B8%99_Grab_Lineman_Robinhood_231113_8.jpg",
+            "nutrition": "220 kcal",
+            "protein": "5 g"
+          },
+          {
+            "name": "ชาเขียวเย็น",
+            "image": "https://img.kapook.com/u/2017/surauch/cooking/u1_23.jpg",
+            "nutrition": "160 kcal",
+            "protein": "3 g"
+          },
+          {
+            "name": "น้ำแตงโมปั่น",
+            "image": "https://img.kapook.com/u/surauch/movie2/watermelon-smoothie.jpg",
+            "nutrition": "130 kcal",
+            "protein": "2 g"
+          },
+          {
+            "name": "น้ำปั่นมะม่วง",
+            "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-R5ZUWgtj6auKJINDyuhPxonatqq-KCazQg&s",
+            "nutrition": "170 kcal",
+            "protein": "2 g"
+          },
+          {
+            "name": "ชามะนาว",
+            "image": "https://s359.kapook.com/pagebuilder/aea20974-a1b8-44d5-be43-c018b6448758.jpg",
+            "nutrition": "110 kcal",
+            "protein": "1 g"
+          }
+    ]
 }
