@@ -1,26 +1,128 @@
 {
-    "ข้าวผัด": {
-        "name": "ข้าวผัด",
-        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4fFZ_vPw78LgpzZRFhBH1t1ZoSESHvqiDKg&s",
-        "nutrition": "350 kcal",
-        "protein": "10 g"
-    },
-    "ส้มตำ": {
-        "name": "ส้มตำ",
-        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhyKO0zPRsVyrUtoQczThJRI7LsSZuPRQLAQ&s",
-        "nutrition": "120 kcal",
-        "protein": "20 g"
-    },
-    "ผัดไทย": {
-        "name": "ผัดไทย",
-        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFPPHTiVsSBK5Bp3ABHDWEMqTxkJlxb6Jwhw&s",
-        "nutrition": "400 kcal",
-        "protein": "30 g"
-    },
-    "ก๋วยเตี๋ยว": {
-        "name": "ก๋วยเตี๋ยว",
-        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcwaxuXmI8M0avMgvvNzLFjWtJ_HQ625xQSQ&s",
-        "nutrition": "300 kcal",
-        "protein": "20 g"
-    }
+    "ข้าว": [
+        {
+            "name": "ข้าวผัด",
+            "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4fFZ_vPw78LgpzZRFhBH1t1ZoSESHvqiDKg&s",
+            "nutrition": "350 kcal",
+            "protein": "10 g"
+        },
+        {
+            "name": "กะเพราไก่ไข่ดาว",
+            "image": "https://us-fbcloud.net/hottopic/data/1107/1107933.x7c0cp1p16pi.n3.webp",
+            "nutrition": "550 kcal",
+            "protein": "25 g"
+        },
+        {
+            "name": "ข้าวมันไก่",
+            "image": "https://homeyselect.co/wp-content/uploads/2024/04/%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B8%A7%E0%B8%A1%E0%B8%B1%E0%B8%99%E0%B9%84%E0%B8%81%E0%B9%88.jpg",
+            "nutrition": "590 kcal",
+            "protein": "22 g"
+        },
+        {
+            "name": "แกงเขียวหวานไก่",
+            "image": "https://s359.kapook.com/pagebuilder/9f824e56-6919-46c9-910b-d962b508260e.jpg",
+            "nutrition": "240 kcal",
+            "protein": "18 g"
+        },
+        {
+            "name": "ข้าวขาหมู",
+            "image": "https://static.cdntap.com/tap-assets-prod/wp-content/uploads/sites/25/2023/03/can-pregnant-eat-pork-leg-rice-3.jpg",
+            "nutrition": "650 kcal",
+            "protein": "20 g"
+        },
+        {
+            "name": "ข้าวหมูแดง",
+            "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJAmqBDv9hMJ4s2_ATyHtxL1FkpIATxO0tDA&s",
+            "nutrition": "540 kcal",
+            "protein": "16 g"
+        },
+        {
+            "name": "ไก่ผัดเม็ดมะม่วง",
+            "image": "https://www.pholfoodmafia.com/wp-content/uploads/2022/05/7Special-Cashew-Chicken.jpg",
+            "nutrition": "310 kcal",
+            "protein": "20 g"
+        },
+        {
+            "name": "ไข่เจียวหมูสับ",
+            "image": "https://assets.unileversolutions.com/recipes-v2/117867.jpg",
+            "nutrition": "250 kcal",
+            "protein": "14 g"
+        },
+        {
+            "name": "ข้าวหน้าเป็ด",
+            "image": "https://images.aws.nestle.recipes/original/e4b2d29ca6efb9f89b3062d9fb6da7fd_maggi_2_4877.jpg",
+            "nutrition": "500 kcal",
+            "protein": "18 g"
+        },
+        {
+            "name": "หมูปิ้ง",
+            "image": "https://img.wongnai.com/p/1920x0/2018/07/17/454e074d6e6d4a159c33f327ede65dc2.jpg",
+            "nutrition": "130 kcal",
+            "protein": "12 g"
+        },
+        {
+            "name": "แกงมัสมั่นไก่",
+            "image": "https://img.wongnai.com/p/1920x0/2018/10/19/a67e7aeb0c0b462391961bddf7365225.jpg",
+            "nutrition": "450 kcal",
+            "protein": "15 g"
+        },
+        {
+            "name": "ปลากะพงทอดน้ำปลา",
+            "image": "https://media.istockphoto.com/id/1198834716/photo/deep-fried-sea-bass-with-fish-sauce.webp?a=1&b=1&s=612x612&w=0&k=20&c=kZ_Rr1xf1S0gJotZnNw7-iRzchCHedg5lOwPmNAmA7k=",
+            "nutrition": "380 kcal",
+            "protein": "35 g"
+        }
+    ],
+    "เส้น": [
+        {
+            "name": "ผัดไทย",
+            "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFPPHTiVsSBK5Bp3ABHDWEMqTxkJlxb6Jwhw&s",
+            "nutrition": "400 kcal",
+            "protein": "30 g"
+        },
+        {
+            "name": "ก๋วยเตี๋ยว",
+            "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcwaxuXmI8M0avMgvvNzLFjWtJ_HQ625xQSQ&s",
+            "nutrition": "300 kcal",
+            "protein": "20 g"
+        },
+        {
+            "name": "ผัดซีอิ๊วหมู",
+            "image": "https://s359.kapook.com/pagebuilder/09a92003-6eb9-4d67-b0b5-5334af7bc019.jpg",
+            "nutrition": "520 kcal",
+            "protein": "18 g"
+        },
+        {
+            "name": "ราดหน้าหมู",
+            "image": "https://img.wongnai.com/p/1920x0/2022/04/28/2b1d293c616b4038a1ca98acc5e04392.jpg",
+            "nutrition": "400 kcal",
+            "protein": "16 g"
+        }
+    ],
+    "ของแซ่บ": [
+        {
+            "name": "ส้มตำ",
+            "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhyKO0zPRsVyrUtoQczThJRI7LsSZuPRQLAQ&s",
+            "nutrition": "120 kcal",
+            "protein": "20 g"
+        },
+        {
+            "name": "ลาบหมู",
+            "image": "https://img.wongnai.com/p/1920x0/2021/05/02/c82c59e322a8426898d19f4e05f41c29.jpg",
+            "nutrition": "180 kcal",
+            "protein": "22 g"
+        },
+        {
+            "name": "ยำวุ้นเส้น",
+            "image": "https://media.istockphoto.com/id/2194920787/photo/spicy-vermicelli-with-shrimp-and-squid-in-a-white-plate.webp?a=1&b=1&s=612x612&w=0&k=20&c=kc9w2g-69YKHxAkXcht4mB0eZCEBoXjW8M69KaJlfOw=",
+            "nutrition": "160 kcal",
+            "protein": "15 g"
+        },
+        {
+            "name": "ต้มยำกุ้ง",
+            "image": "https://d3h1lg3ksw6i6b.cloudfront.net/media/image/2023/04/24/5608757681874e1ea5df1aa41d5b2e3d_How_To_Make_Tom_Yam_Kung_The_Epitome_Of_Delicious_And_Nutritious_Thai_Cuisine3.jpg",
+            "nutrition": "150 kcal",
+            "protein": "15 g"
+        }
+    ]
 }
