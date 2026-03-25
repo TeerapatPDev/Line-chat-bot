@@ -1,4 +1,5 @@
 from difflib import get_close_matches
+import os
 
 from fastapi import FastAPI, Request
 import requests
@@ -6,9 +7,16 @@ import random
 import json
 import re
 
+from ai import call_ai
+
 app = FastAPI()
 
-LINE_TOKEN = "qV+t4FvU+6T0ZGeVi6/jLenoS+sPd/6OAm0dyl+GPd10nktsD2WXXlY7qtFwGSVH57+hZd17yXHtUBonfDFkc+5Db/0YgSIWnbon3BpgbCjrFhTRIeBNf3u6jA6apVVzJh17TyPvB72VXrEW272RIAdB04t89/1O/w1cDnyilFU="
+from dotenv import load_dotenv
+
+# โหลด env
+load_dotenv()
+
+API_KEY = os.getenv("LINE_TOKEN")
 
 # ================== LOAD DATA ==================
 with open("data/foods.json", "r", encoding="utf-8") as f:
