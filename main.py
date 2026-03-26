@@ -365,7 +365,13 @@ async def webhook(req: Request):
     elif intent == "not_hungry":
         message = {"type": "text", "text": "ฉันไม่เข้าใจ"}
     else:
+    ai_text = call_ai(text)
+
+    # ถ้า AI บอกไม่เข้าใจ → ใช้ของเดิม
+    if "ไม่เข้าใจ" in ai_text:
         message = {"type": "text", "text": "ฉันไม่เข้าใจ"}
+    else:
+        message = {"type": "text", "text": ai_text}
 
     # reply พร้อม quick reply
     reply(reply_token, add_quick_reply(message))
