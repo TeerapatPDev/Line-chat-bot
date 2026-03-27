@@ -4,14 +4,10 @@ import requests
 import random
 import json
 from dotenv import load_dotenv
-import logging
 
 from ai import call_ai
 
 app = FastAPI()
-
-# ================== LOG ==================
-logging.basicConfig(level=logging.INFO)
 
 # ================== ENV ==================
 load_dotenv()
@@ -22,7 +18,7 @@ with open("data/foods.json", "r", encoding="utf-8") as f:
     foods = json.load(f)
 
 with open("data/shops.json", "r", encoding="utf-8") as f:
-    shops = json.load(f)
+    shop = json.load(f)
 
 # ================== HELPER ==================
 def get_all_foods():
@@ -31,24 +27,38 @@ def get_all_foods():
         all_foods.extend(f)
     return all_foods
 
-def get_foods_by_names(names):
-    return [f for f in get_all_foods() if f["name"] in names]
 
-def get_shops_by_names(names):
-    return [s for s in shops.values() if s["name"] in names]
+def get_foods_by_names(names):
+    all_foods = get_all_foods()
+    result = []
+
+    for name in names:
+        for food in all_foods:
+            if food["name"] == name:
+                result.append(food)
+
+    return result
+
 
 # ================== NORMALIZE ==================
 def normalize_foods(food_data):
     all_foods = get_all_foods()
 
+    # เติมให้ครบ 3
     if len(food_data) < 3:
         existing = [f["name"] for f in food_data]
         remaining = [f for f in all_foods if f["name"] not in existing]
 
         if remaining:
-            food_data += random.sample(remaining, min(3 - len(food_data), len(remaining)))
+            extra = random.sample(remaining, min(3 - len(food_data), len(remaining)))
+            food_data.extend(extra)
 
-    return food_data[:3]
+    # ตัดให้เหลือ 3
+    if len(food_data) > 3:
+        food_data = food_data[:3]
+
+    return food_data
+
 
 # ================== FLEX ==================
 def build_ai_food_flex(food_list):
@@ -68,7 +78,7 @@ def build_ai_food_flex(food_list):
                 "type": "box",
                 "layout": "vertical",
                 "contents": [
-                    {"type": "text", "text": food["name"], "weight": "bold"},
+                    {"type": "text", "text": food["name"], "weight": "bold", "wrap": True},
                     {"type": "text", "text": f"พลังงาน: {food['nutrition']}"},
                     {"type": "text", "text": f"โปรตีน: {food['protein']}"}
                 ]
@@ -85,10 +95,10 @@ def build_ai_food_flex(food_list):
     }
 
 
-def build_shop_flex(shop_list):
+def build_shop_flex():
     bubbles = []
 
-    for s in shop_list:
+    for s in shop.values():
         bubbles.append({
             "type": "bubble",
             "hero": {
@@ -102,7 +112,7 @@ def build_shop_flex(shop_list):
                 "type": "box",
                 "layout": "vertical",
                 "contents": [
-                    {"type": "text", "text": s["name"], "weight": "bold"}
+                    {"type": "text", "text": s["name"], "weight": "bold", "wrap": True}
                 ]
             },
             "footer": {
@@ -124,6 +134,7 @@ def build_shop_flex(shop_list):
         }
     }
 
+
 # ================== QUICK REPLY ==================
 def add_quick_reply(message):
     message["quickReply"] = {
@@ -135,10 +146,9 @@ def add_quick_reply(message):
     }
     return message
 
+
 # ================== REPLY ==================
 def reply(reply_token, messages):
-    logging.info(messages)
-
     requests.post(
         "https://api.line.me/v2/bot/message/reply",
         headers={
@@ -147,69 +157,105 @@ def reply(reply_token, messages):
         },
         json={
             "replyToken": reply_token,
-            "messages": messages
+            "messages": messages if isinstance(messages, list) else [messages]
         }
     )
+
 
 # ================== WEBHOOK ==================
 @app.post("/webhook")
 async def webhook(req: Request):
-    body = await req.json()
+    try:
+        body = await req.json()
+        print("📩 RAW EVENT:", body)
 
-    if "events" not in body:
-        return {"status": "ok"}
-
-    event = body["events"][0]
-    reply_token = event.get("replyToken")
-
-    if not reply_token:
-        return {"status": "ok"}
-
-    # follow
-    if event.get("type") == "follow":
-        reply(reply_token, [{"type": "text", "text": "ยินดีต้อนรับ 😄"}])
-        return {"status": "ok"}
-
-    if event.get("type") != "message":
-        return {"status": "ok"}
-
-    text = event["message"].get("text", "").strip()
-
-    if not text:
-        reply(reply_token, [{"type": "text", "text": "ฉันไม่เข้าใจ"}])
-        return {"status": "ok"}
-
-    # ================== AI ==================
-    ai_result = call_ai(text)
-    logging.info(f"AI result: {ai_result}")
-
-    messages = []
-
-    # intro text
-    if ai_result.get("intro_text"):
-        messages.append({"type": "text", "text": ai_result["intro_text"]})
-
-    # FOOD
-    if ai_result.get("type") == "food":
-        food_data = get_foods_by_names(ai_result.get("items", []))
-        food_data = normalize_foods(food_data)
-
-        if food_data:
-            messages.append(add_quick_reply(build_ai_food_flex(food_data)))
-            reply(reply_token, messages)
+        if "events" not in body or len(body["events"]) == 0:
             return {"status": "ok"}
 
-    # SHOP
-    if ai_result.get("type") == "shop":
-        shop_data = get_shops_by_names(ai_result.get("items", []))
+        event = body["events"][0]
+        reply_token = event.get("replyToken")
 
-        if not shop_data:
-            shop_data = list(shops.values())[:3]
+        if not reply_token:
+            return {"status": "ok"}
 
-        messages.append(add_quick_reply(build_shop_flex(shop_data)))
+        # follow event
+        if event.get("type") == "follow":
+            reply(reply_token, [
+                add_quick_reply({
+                    "type": "text",
+                    "text": "ยินดีต้อนรับ 😄"
+                })
+            ])
+            return {"status": "ok"}
+
+        # ไม่ใช่ message
+        if event.get("type") != "message":
+            return {"status": "ok"}
+
+        if event["message"].get("type") != "text":
+            reply(reply_token, [
+                add_quick_reply({
+                    "type": "text",
+                    "text": "ฉันไม่เข้าใจ"
+                })
+            ])
+            return {"status": "ok"}
+
+        text = event["message"].get("text", "").strip()
+        print("👤 USER:", text)
+
+        if not text:
+            reply(reply_token, [
+                add_quick_reply({
+                    "type": "text",
+                    "text": "ฉันไม่เข้าใจ"
+                })
+            ])
+            return {"status": "ok"}
+
+        # ================== AI ==================
+        ai_result = call_ai(text)
+        print("🤖 AI RESULT:", json.dumps(ai_result, ensure_ascii=False))
+
+        messages = None
+
+        # 🔥 FOOD
+        if ai_result.get("type") == "food":
+            food_data = get_foods_by_names(ai_result.get("items", []))
+
+            if food_data:
+                food_data = normalize_foods(food_data)
+
+                messages = [
+                    add_quick_reply({
+                        "type": "text",
+                        "text": ai_result.get("message", "ลองเมนูพวกนี้ดูนะ 😋")
+                    }),
+                    build_ai_food_flex(food_data)
+                ]
+
+        # 🔥 SHOP
+        elif ai_result.get("type") == "shop":
+            messages = [
+                add_quick_reply({
+                    "type": "text",
+                    "text": ai_result.get("message", "ลองร้านพวกนี้ดูนะ 🍽️")
+                }),
+                build_shop_flex()
+            ]
+
+        # ================== FALLBACK ==================
+        if not messages:
+            messages = [
+                add_quick_reply({
+                    "type": "text",
+                    "text": ai_result.get("message", "ฉันไม่เข้าใจ")
+                })
+            ]
+
         reply(reply_token, messages)
         return {"status": "ok"}
 
-    # fallback
-    reply(reply_token, [{"type": "text", "text": "ฉันไม่เข้าใจ"}])
-    return {"status": "ok"}
+    except Exception as e:
+        print("🔥 ERROR:", e)
+        return {"status": "error"}
