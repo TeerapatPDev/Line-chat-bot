@@ -1,17 +1,52 @@
 {
-    "ร้านป้าไก่": {
-        "name": "ร้านข้าวฟางคาเฟ่",
-        "image": "https://lh3.googleusercontent.com/gps-cs-s/AHVAweoq5a9iTkwmHhhig-2ZLenFkjezPiNibxcurIzddT3LmaEdHn0uxsbUF6yW3rwTHMTONk2CtpthofyPrxVwjAgWxut19vyjBaXXrr4Y0cPZRuq7qjmHFNF5MTd_dBHc4-djDvHr=w408-h280-k-no",
-        "location": "https://maps.app.goo.gl/YhdPqUhr2haR2zt16"
+    "ร้านพี่เอ": {
+        "name": "KUSTO cafe",
+        "image": "https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80",
+        "location": "https://maps.app.goo.gl/pfprq2ciMkvkvqNb8"
     },
-    "ร้านป้าอาร์ต": {
-        "name": "กิ๋นนี่เน้อ",
-        "image": "https://lh3.googleusercontent.com/gps-cs-s/AHVAweq-e2B7HaRAo7hBxQlgxC4w-iwvwVkHAnxJuFE-fUIVdqRCBDICp5Nb8RbMCda6IamtGkOW2djU7ypsDv6e_fP6S431TvTAxmoIiNge4MhE3Xs6E9Nnx1IfcV0GuwFNGkKtRTZOCQ=w408-h725-k-no",
-        "location": "https://maps.app.goo.gl/GmjiYYT6UPwFtpjS9"
+    "ร้านป้านิด": {
+        "name": "Rocky Club Cafe",
+        "image": "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&w=800&q=80",
+        "location": "https://maps.app.goo.gl/muuHQWHD4fgYx9889"
     },
-    "ร้านป้าเจ": {
-        "name": "Term Waan cafe",
-        "image": "https://lh3.googleusercontent.com/gps-cs-s/AHVAwer4jPAnZevWY8FeeICd50pduQpynaiad_sCa4RuPp7CMYQLGE1OOwoiXYmAOSpLWOg11IEqOpylCPWFJYtHyHhAUKmcG5RWBKxfX-UJSjPA_iVO7f01UDVoFYEAAuqIS6n18Yjf=w408-h408-k-no",
-        "location": "https://maps.app.goo.gl/YZ5xKdpWobGBmBpa6"
+    "ร้านลุงชัย": {
+        "name": "TIDA ธิดา Cafe.Restaurant",
+        "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80",
+        "location": "https://maps.app.goo.gl/vkxFZEfwuGPQqBhQA"
+    },
+    "ร้านพี่นัท": {
+        "name": "Resfeber Cafe",
+        "image": "https://tse2.mm.bing.net/th/id/OIP.olZtU7jMIqYneuctBvU2bwHaJ4?rs=1&pid=ImgDetMain&o=7&rm=3",
+        "location": "https://maps.app.goo.gl/SLKiLrjDWo5trRVp7"
+    },
+    "ร้านน้าบัว": {
+        "name": "Gae ga bua Farm cafe",
+        "image": "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?auto=format&fit=crop&w=800&q=80",
+        "location": "https://maps.app.goo.gl/JNDX2QuXMLemzKLo9"
+    },
+    "ร้านพี่กิ๊ก": {
+        "name": "Tiny Coffee House",
+        "image": "https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?auto=format&fit=crop&w=800&q=80",
+        "location": "https://maps.app.goo.gl/j9wijwWtNY9eTR3TA"
+    },
+    "ร้านลุงหนวด": {
+        "name": "ขาหมูจ้าวนาย ปตท.คลอง 1",
+        "image": "https://img.wongnai.com/p/1920x0/2023/07/06/781d6f15a830448dbbe80b72321ed27b.jpg",
+        "location": "https://maps.app.goo.gl/5Az4v1nWy7V37R7b6"
+    },
+    "ร้านพี่เต็ง": {
+        "name": "เต็งหนึ่งคลอง 1",
+        "image": "https://img.wongnai.com/p/1920x0/2021/09/01/0833889884fc441b990fe790bdbf7dc1.jpg",
+        "location": "https://maps.app.goo.gl/5pVD5RQMjGsyu1SX7"
+    },
+    "ร้านเจ๊มุก": {
+        "name": "U-SQUARE (ธรรมศาสตร์ รังสิต)",
+        "image": "https://img.wongnai.com/p/1920x0/2021/09/01/0833889884fc441b990fe790bdbf7dc1.jpg",
+        "location": "https://maps.app.goo.gl/YURkhD7AN8Yk7BsH6"
+    },
+    "ร้านพี่ซัน": {
+        "name": "Prem Cafe In the Wood",
+        "image": "https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=800&q=80",
+        "location": "https://maps.app.goo.gl/yV1U7AujDikhBZP67"
     }
 }

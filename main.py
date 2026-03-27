@@ -265,6 +265,10 @@ async def webhook(req: Request):
         # ================= AI =================
         ai_result = call_ai(text)
 
+        if isinstance(ai_result, dict):
+            if "น้ำ" in text and ai_result.get("category") != "เครื่องดื่ม":
+                ai_result["category"] = "เครื่องดื่ม"
+
         print("🤖 AI:", json.dumps(ai_result, ensure_ascii=False))
 
         messages = build_from_ai(ai_result)
