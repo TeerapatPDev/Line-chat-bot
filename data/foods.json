@@ -75,18 +75,6 @@
     ],
     "เมนูเส้น": [
         {
-            "name": "ผัดไทย",
-            "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFPPHTiVsSBK5Bp3ABHDWEMqTxkJlxb6Jwhw&s",
-            "nutrition": "400 kcal",
-            "protein": "30 g"
-        },
-        {
-            "name": "ก๋วยเตี๋ยว",
-            "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcwaxuXmI8M0avMgvvNzLFjWtJ_HQ625xQSQ&s",
-            "nutrition": "300 kcal",
-            "protein": "20 g"
-        },
-        {
             "name": "ผัดซีอิ๊วหมู",
             "image": "https://s359.kapook.com/pagebuilder/09a92003-6eb9-4d67-b0b5-5334af7bc019.jpg",
             "nutrition": "520 kcal",
