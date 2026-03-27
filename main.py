@@ -1,4 +1,3 @@
-from difflib import get_close_matches
 import os
 from fastapi import FastAPI, Request
 import requests
@@ -11,11 +10,8 @@ from ai import call_ai
 
 app = FastAPI()
 
-# ================== LOGGING ==================
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s"
-)
+# ================== LOG ==================
+logging.basicConfig(level=logging.INFO)
 
 # ================== ENV ==================
 load_dotenv()
@@ -26,7 +22,7 @@ with open("data/foods.json", "r", encoding="utf-8") as f:
     foods = json.load(f)
 
 with open("data/shops.json", "r", encoding="utf-8") as f:
-    shop = json.load(f)
+    shops = json.load(f)
 
 # ================== HELPER ==================
 def get_all_foods():
@@ -36,32 +32,28 @@ def get_all_foods():
     return all_foods
 
 def get_foods_by_names(names):
-    all_foods = get_all_foods()
-    result = []
-    for name in names:
-        for food in all_foods:
-            if food["name"] == name:
-                result.append(food)
-    return result
+    return [f for f in get_all_foods() if f["name"] in names]
+
+def get_shops_by_names(names):
+    return [s for s in shops.values() if s["name"] in names]
 
 # ================== NORMALIZE ==================
 def normalize_foods(food_data):
     all_foods = get_all_foods()
-    # เติมให้ครบ 3 ถ้าน้อย
+
     if len(food_data) < 3:
         existing = [f["name"] for f in food_data]
         remaining = [f for f in all_foods if f["name"] not in existing]
+
         if remaining:
-            extra = random.sample(remaining, min(3 - len(food_data), len(remaining)))
-            food_data.extend(extra)
-    # ตัดให้เหลือ 3 ถ้าเกิน
-    if len(food_data) > 3:
-        food_data = food_data[:3]
-    return food_data
+            food_data += random.sample(remaining, min(3 - len(food_data), len(remaining)))
+
+    return food_data[:3]
 
 # ================== FLEX ==================
 def build_ai_food_flex(food_list):
     bubbles = []
+
     for food in food_list:
         bubbles.append({
             "type": "bubble",
@@ -76,13 +68,14 @@ def build_ai_food_flex(food_list):
                 "type": "box",
                 "layout": "vertical",
                 "contents": [
-                    {"type": "text", "text": food["name"], "weight": "bold", "wrap": True},
+                    {"type": "text", "text": food["name"], "weight": "bold"},
                     {"type": "text", "text": f"พลังงาน: {food['nutrition']}"},
                     {"type": "text", "text": f"โปรตีน: {food['protein']}"}
                 ]
             }
         })
-    flex = {
+
+    return {
         "type": "flex",
         "altText": "AI แนะนำอาหาร",
         "contents": {
@@ -90,12 +83,12 @@ def build_ai_food_flex(food_list):
             "contents": bubbles
         }
     }
-    logging.info(f"Built food flex message: {flex}")
-    return flex
 
-def build_shop_flex():
+
+def build_shop_flex(shop_list):
     bubbles = []
-    for s in shop.values():
+
+    for s in shop_list:
         bubbles.append({
             "type": "bubble",
             "hero": {
@@ -109,15 +102,20 @@ def build_shop_flex():
                 "type": "box",
                 "layout": "vertical",
                 "contents": [
-                    {"type": "text", "text": s["name"], "weight": "bold", "wrap": True}
+                    {"type": "text", "text": s["name"], "weight": "bold"}
                 ]
             },
             "footer": {
                 "type": "button",
-                "action": {"type": "uri", "label": "เปิดแผนที่", "uri": s["location"]}
+                "action": {
+                    "type": "uri",
+                    "label": "เปิดแผนที่",
+                    "uri": s["location"]
+                }
             }
         })
-    flex = {
+
+    return {
         "type": "flex",
         "altText": "ร้านอาหาร",
         "contents": {
@@ -125,8 +123,6 @@ def build_shop_flex():
             "contents": bubbles
         }
     }
-    logging.info(f"Built shop flex message: {flex}")
-    return flex
 
 # ================== QUICK REPLY ==================
 def add_quick_reply(message):
@@ -140,12 +136,9 @@ def add_quick_reply(message):
     return message
 
 # ================== REPLY ==================
-def reply(reply_token, message, pre_text=None):
-    messages = []
-    if pre_text:
-        messages.append({"type": "text", "text": pre_text})
-    messages.append(message)
-    logging.info(f"Sending reply: {messages}")
+def reply(reply_token, messages):
+    logging.info(messages)
+
     requests.post(
         "https://api.line.me/v2/bot/message/reply",
         headers={
@@ -162,50 +155,61 @@ def reply(reply_token, message, pre_text=None):
 @app.post("/webhook")
 async def webhook(req: Request):
     body = await req.json()
-    if "events" not in body or len(body["events"]) == 0:
+
+    if "events" not in body:
         return {"status": "ok"}
 
     event = body["events"][0]
     reply_token = event.get("replyToken")
+
     if not reply_token:
         return {"status": "ok"}
 
     # follow
     if event.get("type") == "follow":
-        reply(reply_token, add_quick_reply({"type": "text", "text": "ยินดีต้อนรับ 😄"}))
+        reply(reply_token, [{"type": "text", "text": "ยินดีต้อนรับ 😄"}])
         return {"status": "ok"}
 
-    # ไม่ใช่ message
     if event.get("type") != "message":
         return {"status": "ok"}
 
-    if event["message"].get("type") != "text":
-        reply(reply_token, add_quick_reply({"type": "text", "text": "ฉันไม่เข้าใจ"}))
-        return {"status": "ok"}
-
     text = event["message"].get("text", "").strip()
+
     if not text:
-        reply(reply_token, add_quick_reply({"type": "text", "text": "ฉันไม่เข้าใจ"}))
+        reply(reply_token, [{"type": "text", "text": "ฉันไม่เข้าใจ"}])
         return {"status": "ok"}
 
-    # ================== AI ONLY ==================
+    # ================== AI ==================
     ai_result = call_ai(text)
     logging.info(f"AI result: {ai_result}")
 
-    # ใช้ข้อความนำจาก AI ถ้ามี
-    pre_text = ai_result.get("intro_text", None)
+    messages = []
 
-    # 🔥 food
+    # intro text
+    if ai_result.get("intro_text"):
+        messages.append({"type": "text", "text": ai_result["intro_text"]})
+
+    # FOOD
     if ai_result.get("type") == "food":
         food_data = get_foods_by_names(ai_result.get("items", []))
+        food_data = normalize_foods(food_data)
+
         if food_data:
-            food_data = normalize_foods(food_data)  # ⭐ บังคับ 3 เมนู
-            message = build_ai_food_flex(food_data)
-            reply(reply_token, add_quick_reply(message), pre_text=pre_text)
+            messages.append(add_quick_reply(build_ai_food_flex(food_data)))
+            reply(reply_token, messages)
             return {"status": "ok"}
 
-    # 🔥 shop
-    elif ai_result.get("type") == "shop":
-        message = build_shop_flex()
-        reply(reply_token, add_quick_reply(message), pre_text=pre_text)
+    # SHOP
+    if ai_result.get("type") == "shop":
+        shop_data = get_shops_by_names(ai_result.get("items", []))
+
+        if not shop_data:
+            shop_data = list(shops.values())[:3]
+
+        messages.append(add_quick_reply(build_shop_flex(shop_data)))
+        reply(reply_token, messages)
         return {"status": "ok"}
+
+    # fallback
+    reply(reply_token, [{"type": "text", "text": "ฉันไม่เข้าใจ"}])
+    return {"status": "ok"}

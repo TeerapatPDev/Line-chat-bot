@@ -18,98 +18,97 @@ with open("data/shops.json", "r", encoding="utf-8") as f:
 
 
 # ================== PREPARE DATA ==================
-def get_all_foods():
-    all_foods = []
-    for f in foods.values():
-        all_foods.extend([item["name"] for item in f])
-    return list(set(all_foods))
+def get_foods_by_category():
+    """คืน dict ของแต่ละหมวด → รายชื่ออาหาร"""
+    return {cat: [item["name"] for item in items] for cat, items in foods.items()}
 
 
 def get_all_shops():
     return [s["name"] for s in shops.values()]
 
 
-ALL_FOODS = get_all_foods()
+FOODS_BY_CAT = get_foods_by_category()
 ALL_SHOPS = get_all_shops()
+
+# สุ่มตัวอย่างแต่ละหมวด สำหรับใส่ใน prompt
+def sample_foods_text():
+    lines = []
+    for cat, names in FOODS_BY_CAT.items():
+        sample = random.sample(names, min(4, len(names)))
+        lines.append(f"  {cat}: {', '.join(sample)}")
+    return "\n".join(lines)
 
 
 # ================== BUILD PROMPT ==================
 def build_prompt(user_text):
-    # แยกประเภทจาก JSON จริง
-    food_types = list(foods.keys())
-
-    # สุ่มอาหารต่อหมวด (ลด token)
-    food_by_type = {}
-    for t in food_types:
-        items = [item["name"] for item in foods[t]]
-        food_by_type[t] = random.sample(items, min(5, len(items)))
-
-    sample_shops = random.sample(ALL_SHOPS, min(5, len(ALL_SHOPS)))
-
-    # สร้าง text รายหมวด
-    food_text = ""
-    for t, items in food_by_type.items():
-        food_text += f"{t}: {', '.join(items)}\n"
+    sample_shops = random.sample(ALL_SHOPS, min(3, len(ALL_SHOPS)))
+    foods_text = sample_foods_text()
 
     return f"""
-คุณคือ AI Chatbot สำหรับ "แนะนำอาหารและร้านอาหารเท่านั้น"
+คุณคือ AI แนะนำอาหารและร้านอาหาร ตอบเป็น JSON เท่านั้น ห้ามมี text อื่นนอกจาก JSON
 
-กฎสำคัญ:
-- ห้ามตอบนอกเรื่องอาหาร
-- ถ้าไม่เกี่ยว → ตอบ "ไม่เข้าใจคำถาม" เท่านั้น
-- ห้ามอธิบายเพิ่ม
-- ตอบสั้น
+=== หมวดอาหารที่มี ===
+{foods_text}
 
-========================
-logic
-========================
+=== ร้านอาหารที่มี ===
+  {', '.join(sample_shops)}
 
-1️ ถ้าเกี่ยวกับ "อยากกิน / หิว"
-→ ให้เลือก "ประเภทอาหาร" 1 ประเภทก่อน แล้วแนะนำอาหาร 3 เมนูจากหมวดนั้น
+=== กฎการตอบ ===
+1. วิเคราะห์ว่าผู้ใช้ถามเกี่ยวกับหมวดไหน หรือถามทั่วไป
+2. ถ้าถามเกี่ยวกับ "ร้านอาหาร" → type = "shop"
+3. ถ้าถามเกี่ยวกับอาหารทั่วไป / หิว / สุ่ม → type = "food" แนะนำจากหลายหมวด
+4. ถ้าระบุหมวดชัดเจน เช่น "อยากกินของแซ่บ" → type = "food" เลือกจากหมวดนั้น
+5. ถ้าไม่เกี่ยวกับอาหารเลย → type = "unknown"
+6. แนะนำ 3 รายการเสมอ (ยกเว้น unknown)
+7. ต้องมี field "message" เสมอ
+8. message ต้องเป็นประโยคธรรมชาติ เหมือนคุยกับเพื่อน
+9. ห้ามยาวเกิน 1 ประโยค
 
-2️ ถ้าเกี่ยวกับ "แนะนำเมนู"
-→ ให้เลือก "ประเภทอาหาร" ที่เหมาะสม แล้วแนะนำ 3 เมนู
+=== รูปแบบ JSON ที่ต้องตอบ ===
 
-3️ ถ้า user ระบุประเภท เช่น:
-- อยากกินเส้น → เมนูเส้น
-- อยากกินของหวาน → ของหวาน
-→ ให้เลือกประเภทนั้นโดยตรง
+กรณีแนะนำอาหาร:
+{{
+  "type": "food",
+  "message": "ข้อความคุยกับผู้ใช้ เช่น หิวแล้วใช่ไหม ลองนี่เลย!",
+  "category": "ชื่อหมวด หรือ mixed ถ้าหลายหมวด",
+  "items": ["ชื่ออาหาร1", "ชื่ออาหาร2", "ชื่ออาหาร3"]
+}}
 
-ประเภทที่มี:
-{", ".join(food_types)}
+กรณีแนะนำร้าน:
+{{
+  "type": "shop",
+  "message": "ข้อความแนะนำร้าน เช่น ลองร้านพวกนี้ดูนะ!",
+  "items": ["ชื่อร้าน1", "ชื่อร้าน2", "ชื่อร้าน3"]
+}}
 
-4️ ถ้าเกี่ยวกับ "ร้านอาหาร"
-→ แนะนำร้าน 3 ร้าน
+กรณีไม่เกี่ยว:
+{{
+  "type": "unknown",
+  "message": "ไม่เข้าใจคำถาม"
+}}
 
-5️ ถ้าไม่เกี่ยว
-→ ไม่เข้าใจคำถาม
+=== ตัวอย่าง ===
+user: "หิวแล้ว" → {{"type":"food","category":"mixed","items":["ข้าวผัด","ก๋วยเตี๋ยว","ส้มตำ"]}}
+user: "อยากกินของหวาน" → {{"type":"food","category":"ของหวาน","items":["ข้าวเหนียวมะม่วง","บัวลอย","ลอดช่อง"]}}
+user: "อยากกินของแซ่บๆ" → {{"type":"food","category":"ของแซ่บ","items":["ส้มตำ","ลาบหมู","ต้มแซ่บกระดูกอ่อน"]}}
+user: "มีเมนูเส้นอะไรบ้าง" → {{"type":"food","category":"เมนูเส้น","items":["ผัดไทย","ก๋วยเตี๋ยวเรือ","บะหมี่หมูแดง"]}}
+user: "แนะนำร้านอาหาร" → {{"type":"shop","items":["ร้านข้าวฟางคาเฟ่","กิ๋นนี่เน้อ","Term Waan cafe"]}}
+user: "เล่นเกมอะไรดี" → {{"type":"unknown"}}
 
-========================
- เมนู (ห้ามสร้างเอง ต้องเลือกจากนี้)
-{food_text}
-
-ร้านที่เลือกได้:
-{", ".join(sample_shops)}
-
-========================
- รูปแบบคำตอบ
-
-อาหาร:
-ประเภท: <ชื่อประเภท>
-แนะนำ: xxx, xxx, xxx
-
-ร้าน:
-แนะนำร้าน: xxx, xxx, xxx
-
-อื่น:
-ไม่เข้าใจคำถาม
-
-========================
+=== คำถามของผู้ใช้ ===
 user: {user_text}
 """
 
+
 # ================== CALL GROQ ==================
-def call_ai(text):
+def call_ai(text) -> dict:
+    """
+    คืน dict เสมอ:
+      {"type": "food", "category": "...", "items": [...]}
+      {"type": "shop", "items": [...]}
+      {"type": "unknown"}
+      {"type": "error"}   ← กรณี API ล้มเหลว
+    """
     url = "https://api.groq.com/openai/v1/chat/completions"
 
     headers = {
@@ -120,11 +119,17 @@ def call_ai(text):
     data = {
         "model": "llama-3.1-8b-instant",
         "messages": [
-            {"role": "system", "content": "ตอบ JSON เท่านั้น"},
-            {"role": "user", "content": build_prompt(text)}
+            {
+                "role": "system",
+                "content": "คุณคือ AI แนะนำอาหาร ตอบเป็น JSON เท่านั้น ห้ามมี text อื่น ห้ามมี markdown backtick"
+            },
+            {
+                "role": "user",
+                "content": build_prompt(text)
+            }
         ],
         "temperature": 0.2,
-        "max_tokens": 150
+        "max_tokens": 200
     }
 
     try:
@@ -133,19 +138,29 @@ def call_ai(text):
         if res.status_code != 200:
             print("STATUS:", res.status_code)
             print("ERROR:", res.text)
+            return {"type": "error"}
+
+        raw = res.json()["choices"][0]["message"]["content"].strip()
+
+        # ลบ markdown backtick กัน AI แอบใส่
+        raw = raw.replace("```json", "").replace("```", "").strip()
+
+        result = json.loads(raw)
+
+        # validate type
+        if result.get("type") not in ("food", "shop", "unknown"):
             return {"type": "unknown"}
 
-        content = res.json()["choices"][0]["message"]["content"].strip()
+        return result
 
-        # 🔥 แปลง JSON
-        try:
-            return json.loads(content)
-        except:
-            return {"type": "unknown"}
+    except json.JSONDecodeError as e:
+        print("JSON PARSE ERROR:", e)
+        print("RAW:", raw)
+        return {"type": "error"}
 
     except Exception as e:
         print("EXCEPTION:", e)
-        return {"type": "unknown"}
+        return {"type": "error"}
 
 
 # ================== TEST ==================
@@ -153,4 +168,4 @@ if __name__ == "__main__":
     while True:
         text = input("คุณ: ")
         result = call_ai(text)
-        print("AI:", result)
+        print("AI JSON:", json.dumps(result, ensure_ascii=False, indent=2))
