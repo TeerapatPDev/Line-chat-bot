@@ -101,6 +101,7 @@ def build_shop_flex():
     for s in shop.values():
         bubbles.append({
             "type": "bubble",
+            "size": "mega",
             "hero": {
                 "type": "image",
                 "url": s["image"],
@@ -111,6 +112,7 @@ def build_shop_flex():
             "body": {
                 "type": "box",
                 "layout": "vertical",
+                "spacing": "sm",
                 "contents": [
                     {"type": "text", "text": s["name"], "weight": "bold", "wrap": True}
                 ]
@@ -161,6 +163,8 @@ def reply(reply_token, messages):
         }
     )
 
+    print("📤 STATUS:", res.status_code)
+    print("📤 RESPONSE:", res.text)
 
 # ================== WEBHOOK ==================
 @app.post("/webhook")
@@ -171,10 +175,16 @@ async def webhook(req: Request):
 
         if "events" not in body or len(body["events"]) == 0:
             return {"status": "ok"}
+        if "events" not in body or len(body["events"]) == 0:
+            return {"status": "ok"}
 
         event = body["events"][0]
         reply_token = event.get("replyToken")
+        event = body["events"][0]
+        reply_token = event.get("replyToken")
 
+        if not reply_token:
+            return {"status": "ok"}
         if not reply_token:
             return {"status": "ok"}
 
@@ -201,6 +211,8 @@ async def webhook(req: Request):
             ])
             return {"status": "ok"}
 
+        text = event["message"].get("text", "").strip()
+        print("👤 USER:", text)
         text = event["message"].get("text", "").strip()
         print("👤 USER:", text)
 
