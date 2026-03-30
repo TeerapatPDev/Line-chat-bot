@@ -39,12 +39,10 @@ def find_food_objects_by_category(category, count=3):
 
 def find_shop_objects(names):
     result = []
-
     for name in names:
         for s in shop.values():
             if s["name"] == name:
                 result.append(s)
-
     return result
 
 
@@ -97,7 +95,6 @@ def build_shop_flex(shop_objects):
             "body": {
                 "type": "box",
                 "layout": "vertical",
-                "spacing": "sm",
                 "contents": [
                     {
                         "type": "text",
@@ -110,8 +107,7 @@ def build_shop_flex(shop_objects):
             },
             "footer": {
                 "type": "box",
-                "layout": "vertical",   # 🔥 สำคัญ
-                "spacing": "sm",
+                "layout": "vertical",
                 "contents": [
                     {
                         "type": "button",
@@ -135,18 +131,49 @@ def build_shop_flex(shop_objects):
         }
     }
 
+
+# ================== QUICK REPLY ==================
+def add_quick_reply(message):
+    message["quickReply"] = {
+        "items": [
+            {
+                "type": "action",
+                "action": {
+                    "type": "message",
+                    "label": "🍛 กินอะไรดี",
+                    "text": "กินอะไรดี"
+                }
+            },
+            {
+                "type": "action",
+                "action": {
+                    "type": "message",
+                    "label": "😋 หิวข้าว",
+                    "text": "หิวข้าว"
+                }
+            },
+            {
+                "type": "action",
+                "action": {
+                    "type": "message",
+                    "label": "📍 ร้านอาหาร",
+                    "text": "แนะนำร้านอาหาร"
+                }
+            }
+        ]
+    }
+    return message
+
+
 # ================== BUILD FROM AI ==================
 def build_from_ai(ai_result):
-    print("👉 BUILD FROM AI:", ai_result)
-
     result_type = ai_result.get("type")
     message_text = ai_result.get("message", "ลองดูตัวเลือกนี้นะ!")
 
-    # ❗ unknown
     if result_type not in ("food", "shop"):
         return [{"type": "text", "text": "ไม่เข้าใจคำถาม"}]
 
-    # ================= FOOD =================
+    # ===== FOOD =====
     if result_type == "food":
         item_names = ai_result.get("items", [])
         category = ai_result.get("category", "mixed")
@@ -158,12 +185,9 @@ def build_from_ai(ai_result):
             if obj:
                 food_objects.append(obj)
 
-        # fallback
         if not food_objects:
-            print("⚠️ FOOD fallback")
             food_objects = find_food_objects_by_category(category, 3)
 
-        # บังคับให้ครบ 3
         if len(food_objects) < 3:
             extra = find_food_objects_by_category(category, 3)
             food_objects.extend(extra)
@@ -172,24 +196,21 @@ def build_from_ai(ai_result):
 
         flex = build_food_carousel(food_objects, f"เมนู{category}")
 
+        # 🔥 FLEX ก่อน TEXT
         return [
-            {"type": "text", "text": message_text},
-            flex
+            flex,
+            {"type": "text", "text": message_text}
         ]
 
-    # ================= SHOP =================
+    # ===== SHOP =====
     if result_type == "shop":
         item_names = ai_result.get("items", [])
-        print("🛒 AI SHOP:", item_names)
 
         shop_objects = find_shop_objects(item_names)
 
-        # fallback
         if not shop_objects:
-            print("⚠️ SHOP fallback random")
             shop_objects = random.sample(list(shop.values()), min(3, len(shop)))
 
-        # บังคับให้ครบ 3
         if len(shop_objects) < 3:
             remaining = [s for s in shop.values() if s not in shop_objects]
             if remaining:
@@ -200,9 +221,10 @@ def build_from_ai(ai_result):
 
         flex = build_shop_flex(shop_objects)
 
+        # 🔥 FLEX ก่อน TEXT
         return [
-            {"type": "text", "text": message_text},
-            flex
+            flex,
+            {"type": "text", "text": message_text}
         ]
 
 
@@ -210,6 +232,12 @@ def build_from_ai(ai_result):
 def reply(reply_token, messages):
     if not isinstance(messages, list):
         messages = [messages]
+
+    # ✅ ใส่ quick reply ให้ TEXT ตัวสุดท้ายเท่านั้น
+    for i in range(len(messages) - 1, -1, -1):
+        if messages[i]["type"] == "text":
+            messages[i] = add_quick_reply(messages[i])
+            break
 
     res = requests.post(
         "https://api.line.me/v2/bot/message/reply",
@@ -247,7 +275,7 @@ async def webhook(req: Request):
             reply(reply_token, {"type": "text", "text": "ยินดีต้อนรับ 😄"})
             return {"status": "ok"}
 
-        # message
+        # message only
         if event.get("type") != "message":
             return {"status": "ok"}
 
@@ -262,12 +290,24 @@ async def webhook(req: Request):
             reply(reply_token, {"type": "text", "text": "ไม่เข้าใจคำถาม"})
             return {"status": "ok"}
 
-        # ================= AI =================
-        ai_result = call_ai(text)
+        # ================= SHORTCUT =================
+        if text in ["หิวข้าว", "กินอะไรดี"]:
+            ai_result = {
+                "type": "food",
+                "category": "mixed",
+                "message": "หิวแล้วใช่ไหม 😋 ลองนี่เลย!",
+                "items": []
+            }
 
-        if isinstance(ai_result, dict):
-            if "น้ำ" in text and ai_result.get("category") != "เครื่องดื่ม":
-                ai_result["category"] = "เครื่องดื่ม"
+        elif text in ["ร้านอาหาร", "แนะนำร้านอาหาร"]:
+            ai_result = {
+                "type": "shop",
+                "message": "ลองร้านพวกนี้ดูนะ 👀",
+                "items": []
+            }
+
+        else:
+            ai_result = call_ai(text)
 
         print("🤖 AI:", json.dumps(ai_result, ensure_ascii=False))
 
